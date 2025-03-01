@@ -1,0 +1,57 @@
+include: []
+services:
+  engine:
+    build:
+      context: engine
+      dockerfile: Dockerfile.engine
+      pull: true
+    environment:
+      AUTHN_CONFIG_PATH: /md/auth_config.json
+      ENABLE_CORS: "true"
+      ENABLE_SQL_INTERFACE: "true"
+      INTROSPECTION_METADATA_FILE: /md/metadata.json
+      METADATA_PATH: /md/open_dd.json
+      OTLP_ENDPOINT: http://local.hasura.dev:4317
+    extra_hosts:
+      - local.hasura.dev:host-gateway
+    labels:
+      io.hasura.ddn.service-name: engine
+    ports:
+      - 3280:3000
+  mysql_instance_1:
+    container_name: mysql_db1
+    environment:
+      MYSQL_DATABASE: db1
+      MYSQL_PASSWORD: password1
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: user1
+    image: mysql:latest
+    ports:
+      - 3307:3306
+    restart: always
+    volumes:
+      - ./db/init1.sql:/docker-entrypoint-initdb.d/init.sql
+  mysql_instance_2:
+    container_name: mysql_db2
+    environment:
+      MYSQL_DATABASE: db2
+      MYSQL_PASSWORD: password2
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: user2
+    image: mysql:latest
+    ports:
+      - 3308:3306
+    restart: always
+    volumes:
+      - ./db/init2.sql:/docker-entrypoint-initdb.d/init.sql
+  otel-collector:
+    command:
+      - --config=/etc/otel-collector-config.yaml
+    environment:
+      HASURA_DDN_PAT: ${HASURA_DDN_PAT}
+    image: otel/opentelemetry-collector:0.104.0
+    ports:
+      - 4317:4317
+      - 4318:4318
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
