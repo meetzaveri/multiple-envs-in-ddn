@@ -1,0 +1,150 @@
+{
+  "jdbcUrl" : {
+    "variable" : "JDBC_URL"
+  },
+  "jdbcProperties" : {
+    "allowMultiQueries" : "true"
+  },
+  "schemas" : [ ],
+  "tables" : [ {
+    "tableName" : "db1.orders",
+    "tableType" : "TABLE",
+    "description" : "",
+    "columns" : [ {
+      "name" : "id",
+      "description" : "",
+      "type" : "int",
+      "numeric_scale" : 0,
+      "nullable" : false,
+      "auto_increment" : true,
+      "is_primarykey" : true
+    }, {
+      "name" : "user_id",
+      "description" : "",
+      "type" : "int",
+      "numeric_scale" : 0,
+      "nullable" : true,
+      "auto_increment" : false,
+      "is_primarykey" : false
+    }, {
+      "name" : "product_id",
+      "description" : "",
+      "type" : "int",
+      "numeric_scale" : 0,
+      "nullable" : true,
+      "auto_increment" : false,
+      "is_primarykey" : false
+    }, {
+      "name" : "quantity",
+      "description" : "",
+      "type" : "int",
+      "numeric_scale" : 0,
+      "nullable" : false,
+      "auto_increment" : false,
+      "is_primarykey" : false
+    }, {
+      "name" : "order_date",
+      "description" : "",
+      "type" : "timestamp",
+      "numeric_scale" : null,
+      "nullable" : true,
+      "auto_increment" : false,
+      "is_primarykey" : false
+    } ],
+    "pks" : [ "id" ],
+    "fks" : {
+      "orders_ibfk_1" : {
+        "column_mapping" : {
+          "user_id" : "id"
+        },
+        "foreign_collection" : "db1.users"
+      },
+      "orders_ibfk_2" : {
+        "column_mapping" : {
+          "product_id" : "id"
+        },
+        "foreign_collection" : "db1.products"
+      }
+    }
+  }, {
+    "tableName" : "db1.products",
+    "tableType" : "TABLE",
+    "description" : "",
+    "columns" : [ {
+      "name" : "id",
+      "description" : "",
+      "type" : "int",
+      "numeric_scale" : 0,
+      "nullable" : false,
+      "auto_increment" : true,
+      "is_primarykey" : true
+    }, {
+      "name" : "name",
+      "description" : "",
+      "type" : "varchar",
+      "numeric_scale" : null,
+      "nullable" : false,
+      "auto_increment" : false,
+      "is_primarykey" : false
+    }, {
+      "name" : "price",
+      "description" : "",
+      "type" : "decimal",
+      "numeric_scale" : 2,
+      "nullable" : false,
+      "auto_increment" : false,
+      "is_primarykey" : false
+    }, {
+      "name" : "stock",
+      "description" : "",
+      "type" : "int",
+      "numeric_scale" : 0,
+      "nullable" : false,
+      "auto_increment" : false,
+      "is_primarykey" : false
+    } ],
+    "pks" : [ "id" ],
+    "fks" : null
+  }, {
+    "tableName" : "db1.users",
+    "tableType" : "TABLE",
+    "description" : "",
+    "columns" : [ {
+      "name" : "id",
+      "description" : "",
+      "type" : "int",
+      "numeric_scale" : 0,
+      "nullable" : false,
+      "auto_increment" : true,
+      "is_primarykey" : true
+    }, {
+      "name" : "name",
+      "description" : "",
+      "type" : "varchar",
+      "numeric_scale" : null,
+      "nullable" : false,
+      "auto_increment" : false,
+      "is_primarykey" : false
+    }, {
+      "name" : "email",
+      "description" : "",
+      "type" : "varchar",
+      "numeric_scale" : null,
+      "nullable" : false,
+      "auto_increment" : false,
+      "is_primarykey" : false
+    }, {
+      "name" : "created_at",
+      "description" : "",
+      "type" : "timestamp",
+      "numeric_scale" : null,
+      "nullable" : true,
+      "auto_increment" : false,
+      "is_primarykey" : false
+    } ],
+    "pks" : [ "id" ],
+    "fks" : null
+  } ],
+  "functions" : [ ],
+  "nativeQueries" : { }
+}

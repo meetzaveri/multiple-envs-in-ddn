@@ -1,0 +1,14 @@
+services:
+  staging_mysql_2:
+    build:
+      context: .
+      dockerfile: .hasura-connector/Dockerfile.mysql_2
+    environment:
+      HASURA_SERVICE_TOKEN_SECRET: $STAGING_MYSQL_2_HASURA_SERVICE_TOKEN_SECRET
+      JDBC_URL: $STAGING_MYSQL_2_JDBC_URL
+      OTEL_EXPORTER_OTLP_ENDPOINT: $STAGING_MYSQL_2_OTEL_EXPORTER_OTLP_ENDPOINT
+      OTEL_SERVICE_NAME: $STAGING_MYSQL_2_OTEL_SERVICE_NAME
+    extra_hosts:
+      - local.hasura.dev:host-gateway
+    ports:
+      - 6201:8080

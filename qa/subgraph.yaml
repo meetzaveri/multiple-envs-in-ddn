@@ -1,0 +1,19 @@
+kind: Subgraph
+version: v2
+definition:
+  name: qa
+  generator:
+    rootPath: .
+    namingConvention: graphql
+  includePaths:
+    - metadata
+  envMapping:
+    QA_MYSQL_1_AUTHORIZATION_HEADER:
+      fromEnv: QA_MYSQL_1_AUTHORIZATION_HEADER
+    QA_MYSQL_1_READ_URL:
+      fromEnv: QA_MYSQL_1_READ_URL
+    QA_MYSQL_1_WRITE_URL:
+      fromEnv: QA_MYSQL_1_WRITE_URL
+  connectors:
+    - path: connector/mysql_1/connector.yaml
+      connectorLinkName: mysql_1

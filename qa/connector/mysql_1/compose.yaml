@@ -1,0 +1,14 @@
+services:
+  qa_mysql_1:
+    build:
+      context: .
+      dockerfile: .hasura-connector/Dockerfile.mysql_1
+    environment:
+      HASURA_SERVICE_TOKEN_SECRET: $QA_MYSQL_1_HASURA_SERVICE_TOKEN_SECRET
+      JDBC_URL: $QA_MYSQL_1_JDBC_URL
+      OTEL_EXPORTER_OTLP_ENDPOINT: $QA_MYSQL_1_OTEL_EXPORTER_OTLP_ENDPOINT
+      OTEL_SERVICE_NAME: $QA_MYSQL_1_OTEL_SERVICE_NAME
+    extra_hosts:
+      - local.hasura.dev:host-gateway
+    ports:
+      - 9573:8080

@@ -1,0 +1,19 @@
+kind: Subgraph
+version: v2
+definition:
+  name: staging
+  generator:
+    rootPath: .
+    namingConvention: graphql
+  includePaths:
+    - metadata
+  envMapping:
+    STAGING_MYSQL_2_AUTHORIZATION_HEADER:
+      fromEnv: STAGING_MYSQL_2_AUTHORIZATION_HEADER
+    STAGING_MYSQL_2_READ_URL:
+      fromEnv: STAGING_MYSQL_2_READ_URL
+    STAGING_MYSQL_2_WRITE_URL:
+      fromEnv: STAGING_MYSQL_2_WRITE_URL
+  connectors:
+    - path: connector/mysql_2/connector.yaml
+      connectorLinkName: mysql_2
