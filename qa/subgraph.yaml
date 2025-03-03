@@ -4,6 +4,7 @@ definition:
   name: qa
   generator:
     rootPath: .
+    graphqlTypeNamePrefix: qa_
     namingConvention: graphql
   includePaths:
     - metadata

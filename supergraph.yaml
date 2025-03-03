@@ -3,6 +3,6 @@ version: v2
 definition:
   subgraphs:
     - globals/subgraph.yaml
-    - app/subgraph.yaml
+    # - app/subgraph.yaml
     - staging/subgraph.yaml
     - qa/subgraph.yaml

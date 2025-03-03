@@ -1,0 +1,143 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Db2Products
+  fields:
+    - name: id
+      type: Int32!
+    - name: name
+      type: String_1!
+    - name: price
+      type: Bigdecimal!
+    - name: stock
+      type: Int32!
+  graphql:
+    typeName: staging_Db2Products
+    inputTypeName: staging_Db2ProductsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mysql_2
+      dataConnectorObjectType: db2.products
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Db2Products
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - name
+          - price
+          - stock
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: Db2ProductsBoolExp
+  operand:
+    object:
+      type: Db2Products
+      comparableFields:
+        - fieldName: id
+          booleanExpressionType: Int32BoolExp
+        - fieldName: name
+          booleanExpressionType: StringBoolExp
+        - fieldName: price
+          booleanExpressionType: BigdecimalBoolExp
+        - fieldName: stock
+          booleanExpressionType: Int32BoolExp
+      comparableRelationships: []
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: staging_Db2ProductsBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: Db2ProductsAggExp
+  operand:
+    object:
+      aggregatedType: Db2Products
+      aggregatableFields:
+        - fieldName: id
+          aggregateExpression: Int32AggExp
+        - fieldName: name
+          aggregateExpression: StringAggExp
+        - fieldName: price
+          aggregateExpression: BigdecimalAggExp
+        - fieldName: stock
+          aggregateExpression: Int32AggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: staging_Db2ProductsAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: Db2ProductsOrderByExp
+  operand:
+    object:
+      orderedType: Db2Products
+      orderableFields:
+        - fieldName: id
+          orderByExpression: Int32OrderByExp
+        - fieldName: name
+          orderByExpression: String1OrderByExp
+        - fieldName: price
+          orderByExpression: BigdecimalOrderByExp
+        - fieldName: stock
+          orderByExpression: Int32OrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: staging_Db2ProductsOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Db2Products
+  objectType: Db2Products
+  source:
+    dataConnectorName: mysql_2
+    collection: db2.products
+  filterExpressionType: Db2ProductsBoolExp
+  aggregateExpression: Db2ProductsAggExp
+  orderByExpression: Db2ProductsOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: db2Products
+      subscription:
+        rootField: db2Products
+    selectUniques:
+      - queryRootField: db2ProductsById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: db2ProductsById
+    filterInputTypeName: staging_Db2ProductsFilterInput
+    aggregate:
+      queryRootField: db2ProductsAggregate
+      subscription:
+        rootField: db2ProductsAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Db2Products
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+

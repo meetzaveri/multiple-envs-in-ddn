@@ -1,0 +1,156 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Db2Users
+  fields:
+    - name: createdAt
+      type: Timestamptz
+    - name: email
+      type: String_1!
+    - name: id
+      type: Int32!
+    - name: name
+      type: String_1!
+  graphql:
+    typeName: staging_Db2Users
+    inputTypeName: staging_Db2UsersInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mysql_2
+      dataConnectorObjectType: db2.users
+      fieldMapping:
+        createdAt:
+          column:
+            name: created_at
+        email:
+          column:
+            name: email
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Db2Users
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - createdAt
+          - email
+          - id
+          - name
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: Db2UsersBoolExp
+  operand:
+    object:
+      type: Db2Users
+      comparableFields:
+        - fieldName: createdAt
+          booleanExpressionType: TimestamptzBoolExp
+        - fieldName: email
+          booleanExpressionType: StringBoolExp
+        - fieldName: id
+          booleanExpressionType: Int32BoolExp
+        - fieldName: name
+          booleanExpressionType: StringBoolExp
+      comparableRelationships: []
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: staging_Db2UsersBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: Db2UsersAggExp
+  operand:
+    object:
+      aggregatedType: Db2Users
+      aggregatableFields:
+        - fieldName: createdAt
+          aggregateExpression: TimestamptzAggExp
+        - fieldName: email
+          aggregateExpression: StringAggExp
+        - fieldName: id
+          aggregateExpression: Int32AggExp
+        - fieldName: name
+          aggregateExpression: StringAggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: staging_Db2UsersAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: Db2UsersOrderByExp
+  operand:
+    object:
+      orderedType: Db2Users
+      orderableFields:
+        - fieldName: createdAt
+          orderByExpression: TimestamptzOrderByExp
+        - fieldName: email
+          orderByExpression: String1OrderByExp
+        - fieldName: id
+          orderByExpression: Int32OrderByExp
+        - fieldName: name
+          orderByExpression: String1OrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: staging_Db2UsersOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Db2Users
+  objectType: Db2Users
+  source:
+    dataConnectorName: mysql_2
+    collection: db2.users
+  filterExpressionType: Db2UsersBoolExp
+  aggregateExpression: Db2UsersAggExp
+  orderByExpression: Db2UsersOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: db2Users
+      subscription:
+        rootField: db2Users
+    selectUniques:
+      - queryRootField: db2UsersById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: db2UsersById
+    filterInputTypeName: staging_Db2UsersFilterInput
+    aggregate:
+      queryRootField: db2UsersAggregate
+      subscription:
+        rootField: db2UsersAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Db2Users
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+

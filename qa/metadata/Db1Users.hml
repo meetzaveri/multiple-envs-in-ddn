@@ -1,0 +1,156 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Db1Users
+  fields:
+    - name: createdAt
+      type: Timestamptz
+    - name: email
+      type: String_1!
+    - name: id
+      type: Int32!
+    - name: name
+      type: String_1!
+  graphql:
+    typeName: qa_Db1Users
+    inputTypeName: qa_Db1UsersInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mysql_1
+      dataConnectorObjectType: db1.users
+      fieldMapping:
+        createdAt:
+          column:
+            name: created_at
+        email:
+          column:
+            name: email
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Db1Users
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - createdAt
+          - email
+          - id
+          - name
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: Db1UsersBoolExp
+  operand:
+    object:
+      type: Db1Users
+      comparableFields:
+        - fieldName: createdAt
+          booleanExpressionType: TimestamptzBoolExp
+        - fieldName: email
+          booleanExpressionType: StringBoolExp
+        - fieldName: id
+          booleanExpressionType: Int32BoolExp
+        - fieldName: name
+          booleanExpressionType: StringBoolExp
+      comparableRelationships: []
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: qa_Db1UsersBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: Db1UsersAggExp
+  operand:
+    object:
+      aggregatedType: Db1Users
+      aggregatableFields:
+        - fieldName: createdAt
+          aggregateExpression: TimestamptzAggExp
+        - fieldName: email
+          aggregateExpression: StringAggExp
+        - fieldName: id
+          aggregateExpression: Int32AggExp
+        - fieldName: name
+          aggregateExpression: StringAggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: qa_Db1UsersAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: Db1UsersOrderByExp
+  operand:
+    object:
+      orderedType: Db1Users
+      orderableFields:
+        - fieldName: createdAt
+          orderByExpression: TimestamptzOrderByExp
+        - fieldName: email
+          orderByExpression: String1OrderByExp
+        - fieldName: id
+          orderByExpression: Int32OrderByExp
+        - fieldName: name
+          orderByExpression: String1OrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: qa_Db1UsersOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Db1Users
+  objectType: Db1Users
+  source:
+    dataConnectorName: mysql_1
+    collection: db1.users
+  filterExpressionType: Db1UsersBoolExp
+  aggregateExpression: Db1UsersAggExp
+  orderByExpression: Db1UsersOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: db1Users
+      subscription:
+        rootField: db1Users
+    selectUniques:
+      - queryRootField: db1UsersById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: db1UsersById
+    filterInputTypeName: qa_Db1UsersFilterInput
+    aggregate:
+      queryRootField: db1UsersAggregate
+      subscription:
+        rootField: db1UsersAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Db1Users
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+

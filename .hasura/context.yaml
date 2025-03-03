@@ -1,12 +1,20 @@
 kind: Context
 version: v3
 definition:
-  current: default
+  current: qa
   contexts:
     default:
       supergraph: ../supergraph.yaml
-      subgraph: ../qa/subgraph.yaml
+      subgraph: ../staging/subgraph.yaml
       localEnvFile: ../.env
+    qa:
+      supergraph: ../supergraph.yaml
+      subgraph: ../qa/subgraph.yaml
+      localEnvFile: ../qa.env
+    staging:
+      supergraph: ../supergraph.yaml
+      subgraph: ../staging/subgraph.yaml
+      localEnvFile: ../staging.env
   scripts:
     docker-start:
       bash: HASURA_DDN_PAT=$(ddn auth print-access-token) PROMPTQL_SECRET_KEY=$(ddn auth print-promptql-secret-key) docker compose -f compose.yaml --env-file .env up --build --pull always

@@ -1,0 +1,168 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Db1Orders
+  fields:
+    - name: id
+      type: Int32!
+    - name: orderDate
+      type: Timestamptz
+    - name: productId
+      type: Int32
+    - name: quantity
+      type: Int32!
+    - name: userId
+      type: Int32
+  graphql:
+    typeName: qa_Db1Orders
+    inputTypeName: qa_Db1OrdersInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mysql_1
+      dataConnectorObjectType: db1.orders
+      fieldMapping:
+        id:
+          column:
+            name: id
+        orderDate:
+          column:
+            name: order_date
+        productId:
+          column:
+            name: product_id
+        quantity:
+          column:
+            name: quantity
+        userId:
+          column:
+            name: user_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Db1Orders
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - orderDate
+          - productId
+          - quantity
+          - userId
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: Db1OrdersBoolExp
+  operand:
+    object:
+      type: Db1Orders
+      comparableFields:
+        - fieldName: id
+          booleanExpressionType: Int32BoolExp
+        - fieldName: orderDate
+          booleanExpressionType: TimestamptzBoolExp
+        - fieldName: productId
+          booleanExpressionType: Int32BoolExp
+        - fieldName: quantity
+          booleanExpressionType: Int32BoolExp
+        - fieldName: userId
+          booleanExpressionType: Int32BoolExp
+      comparableRelationships: []
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: qa_Db1OrdersBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: Db1OrdersAggExp
+  operand:
+    object:
+      aggregatedType: Db1Orders
+      aggregatableFields:
+        - fieldName: id
+          aggregateExpression: Int32AggExp
+        - fieldName: orderDate
+          aggregateExpression: TimestamptzAggExp
+        - fieldName: productId
+          aggregateExpression: Int32AggExp
+        - fieldName: quantity
+          aggregateExpression: Int32AggExp
+        - fieldName: userId
+          aggregateExpression: Int32AggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: qa_Db1OrdersAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: Db1OrdersOrderByExp
+  operand:
+    object:
+      orderedType: Db1Orders
+      orderableFields:
+        - fieldName: id
+          orderByExpression: Int32OrderByExp
+        - fieldName: orderDate
+          orderByExpression: TimestamptzOrderByExp
+        - fieldName: productId
+          orderByExpression: Int32OrderByExp
+        - fieldName: quantity
+          orderByExpression: Int32OrderByExp
+        - fieldName: userId
+          orderByExpression: Int32OrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: qa_Db1OrdersOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Db1Orders
+  objectType: Db1Orders
+  source:
+    dataConnectorName: mysql_1
+    collection: db1.orders
+  filterExpressionType: Db1OrdersBoolExp
+  aggregateExpression: Db1OrdersAggExp
+  orderByExpression: Db1OrdersOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: db1Orders
+      subscription:
+        rootField: db1Orders
+    selectUniques:
+      - queryRootField: db1OrdersById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: db1OrdersById
+    filterInputTypeName: qa_Db1OrdersFilterInput
+    aggregate:
+      queryRootField: db1OrdersAggregate
+      subscription:
+        rootField: db1OrdersAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Db1Orders
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+

@@ -4,6 +4,7 @@ definition:
   name: staging
   generator:
     rootPath: .
+    graphqlTypeNamePrefix: staging_
     namingConvention: graphql
   includePaths:
     - metadata

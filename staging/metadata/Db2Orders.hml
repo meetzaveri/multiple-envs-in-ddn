@@ -1,0 +1,168 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Db2Orders
+  fields:
+    - name: id
+      type: Int32!
+    - name: orderDate
+      type: Timestamptz
+    - name: productId
+      type: Int32
+    - name: quantity
+      type: Int32!
+    - name: userId
+      type: Int32
+  graphql:
+    typeName: staging_Db2Orders
+    inputTypeName: staging_Db2OrdersInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mysql_2
+      dataConnectorObjectType: db2.orders
+      fieldMapping:
+        id:
+          column:
+            name: id
+        orderDate:
+          column:
+            name: order_date
+        productId:
+          column:
+            name: product_id
+        quantity:
+          column:
+            name: quantity
+        userId:
+          column:
+            name: user_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Db2Orders
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - orderDate
+          - productId
+          - quantity
+          - userId
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: Db2OrdersBoolExp
+  operand:
+    object:
+      type: Db2Orders
+      comparableFields:
+        - fieldName: id
+          booleanExpressionType: Int32BoolExp
+        - fieldName: orderDate
+          booleanExpressionType: TimestamptzBoolExp
+        - fieldName: productId
+          booleanExpressionType: Int32BoolExp
+        - fieldName: quantity
+          booleanExpressionType: Int32BoolExp
+        - fieldName: userId
+          booleanExpressionType: Int32BoolExp
+      comparableRelationships: []
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: staging_Db2OrdersBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: Db2OrdersAggExp
+  operand:
+    object:
+      aggregatedType: Db2Orders
+      aggregatableFields:
+        - fieldName: id
+          aggregateExpression: Int32AggExp
+        - fieldName: orderDate
+          aggregateExpression: TimestamptzAggExp
+        - fieldName: productId
+          aggregateExpression: Int32AggExp
+        - fieldName: quantity
+          aggregateExpression: Int32AggExp
+        - fieldName: userId
+          aggregateExpression: Int32AggExp
+  count:
+    enable: true
+  graphql:
+    selectTypeName: staging_Db2OrdersAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: Db2OrdersOrderByExp
+  operand:
+    object:
+      orderedType: Db2Orders
+      orderableFields:
+        - fieldName: id
+          orderByExpression: Int32OrderByExp
+        - fieldName: orderDate
+          orderByExpression: TimestamptzOrderByExp
+        - fieldName: productId
+          orderByExpression: Int32OrderByExp
+        - fieldName: quantity
+          orderByExpression: Int32OrderByExp
+        - fieldName: userId
+          orderByExpression: Int32OrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: staging_Db2OrdersOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: Db2Orders
+  objectType: Db2Orders
+  source:
+    dataConnectorName: mysql_2
+    collection: db2.orders
+  filterExpressionType: Db2OrdersBoolExp
+  aggregateExpression: Db2OrdersAggExp
+  orderByExpression: Db2OrdersOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: db2Orders
+      subscription:
+        rootField: db2Orders
+    selectUniques:
+      - queryRootField: db2OrdersById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: db2OrdersById
+    filterInputTypeName: staging_Db2OrdersFilterInput
+    aggregate:
+      queryRootField: db2OrdersAggregate
+      subscription:
+        rootField: db2OrdersAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Db2Orders
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
