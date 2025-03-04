@@ -1,22 +1,29 @@
 kind: Context
 version: v3
 definition:
-  current: qa
+  current: staging
   contexts:
     default:
       supergraph: ../supergraph.yaml
       subgraph: ../staging/subgraph.yaml
       localEnvFile: ../.env
     qa:
-      supergraph: ../supergraph.yaml
-      subgraph: ../qa/subgraph.yaml
+      supergraph: ../qa-supergraph.yaml
+      subgraph: ../mysql_qa/subgraph.yaml
       localEnvFile: ../qa.env
     staging:
-      supergraph: ../supergraph.yaml
-      subgraph: ../staging/subgraph.yaml
+      supergraph: ../staging-supergraph.yaml
+      subgraph: ../mysql_staging/subgraph.yaml
       localEnvFile: ../staging.env
   scripts:
     docker-start:
       bash: HASURA_DDN_PAT=$(ddn auth print-access-token) PROMPTQL_SECRET_KEY=$(ddn auth print-promptql-secret-key) docker compose -f compose.yaml --env-file .env up --build --pull always
       powershell: $Env:HASURA_DDN_PAT = ddn auth print-access-token; $Env:PROMPTQL_SECRET_KEY = ddn auth print-promptql-secret-key; docker compose -f compose.yaml --env-file .env up --build --pull always
+    # additional scripts for each environments and change value of flag wherever necessary
+    docker-start-staging:
+      bash: HASURA_DDN_PAT=$(ddn auth print-access-token) PROMPTQL_SECRET_KEY=$(ddn auth print-promptql-secret-key) docker compose -f compose.yaml --env-file staging.env up --build --pull always
+      powershell: $Env:HASURA_DDN_PAT = ddn auth print-access-token; $Env:PROMPTQL_SECRET_KEY = ddn auth print-promptql-secret-key; docker compose -f compose.yaml --env-file staging.env up --build --pull always
+    docker-start-qa:
+      bash: HASURA_DDN_PAT=$(ddn auth print-access-token) PROMPTQL_SECRET_KEY=$(ddn auth print-promptql-secret-key) docker compose -f compose.yaml --env-file qa.env up --build --pull always
+      powershell: $Env:HASURA_DDN_PAT = ddn auth print-access-token; $Env:PROMPTQL_SECRET_KEY = ddn auth print-promptql-secret-key; docker compose -f compose.yaml --env-file qa.env up --build --pull always
   promptQL: false

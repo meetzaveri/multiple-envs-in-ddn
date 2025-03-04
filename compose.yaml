@@ -1,6 +1,6 @@
 include:
-  - path: staging/connector/mysql_2/compose.yaml
-  - path: qa/connector/mysql_1/compose.yaml
+  - path: mysql_staging/connector/mysql_2/compose.yaml
+  - path: mysql_qa/connector/mysql_1/compose.yaml
 services:
   engine:
     build:
