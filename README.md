@@ -63,7 +63,7 @@ Steps to create this setup yourselves are described below.
 
   Alongside you'll need create new .env files for each environments (as shown in code above) such that Hasura DDN will only create relevant env vars in that env file.
 
-  - Since the `docker-start` script is using `.env` file as part of spinning up container services , you'll need to create additional scripts for each environments. For example,
+  - Since the `docker-start` script is using `.env` file as part of spinning up container services , you'll need to create additional scripts for each environments. For example in staging script you'll need to use `staging.env` as value to `--envfile` and so on,
 
   ```
   scripts:
