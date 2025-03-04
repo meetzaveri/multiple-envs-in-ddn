@@ -1,7 +1,6 @@
 ### Case Study: Managing multiple environments in Hasura DDN
 
-<img width="1077" alt="Screenshot 2025-03-03 at 3 13 30 PM" src="https://github.com/user-attachments/assets/22a74bec-57e4-4afe-83dd-b71dfea5d922" />
-
+<img width="1027" alt="Screenshot 2025-03-04 at 2 49 50 PM" src="https://github.com/user-attachments/assets/dbdb4946-6995-4b61-a395-0955aadea0bf" />
 
 This repo contains case study for managing multiple environments such as QA, prod and staging in Hasura DDN paritcularly for users using MySQL connector.
 
